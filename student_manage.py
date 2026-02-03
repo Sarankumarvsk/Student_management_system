@@ -5,11 +5,11 @@ try:
     mysql = pymysql.connect(
         host="localhost",
         user="root",
-        password="root",     
+        password="root",
         database="student_management"
     )
     print("Database Connected Successfully!")
-except mysql.connector.Error as err:
+except pymysql.connect.Error as err:
     print("Connection Error:", err)
     exit()
 
@@ -19,7 +19,7 @@ def execute(query, values):
         cursor = mysql.cursor()
         cursor.execute(query, values)
         mysql.commit()
-    except mysql.connector.Error as e:
+    except pymysql.connect.Error as e:
         mysql.rollback()
         print("Database Error:", e)
     finally:
@@ -200,12 +200,9 @@ while True:
             att_Report()
         elif choice == 8:
             print("Exiting Program...")
+            mysql.close()
             break
         else:
             print("Invalid Choice")
     except ValueError:
         print("Enter valid number!")
-
-# ---------------- CLOSE CONNECTION ----------------
-if mysql.is_connected():
-    mysql.close()
